@@ -29,7 +29,12 @@
 
         <div id="result" style="display: none;"></div>
 
-        <button id="toggleDarkMode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <div class="toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="toggleDarkMode" onclick="toggleDarkMode()">
+                <span class="slider"></span>
+            </label>
+        </div>
         <button id="resetButton" onclick="resetForm()">Reset</button>
     </div>
 

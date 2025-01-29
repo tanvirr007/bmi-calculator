@@ -101,50 +101,63 @@ button:hover {
     }
 }
 
-/* BMI Categories */
-.underweight {
-    background-color: #ffcc00;
-    color: #ffffff;
+/* Toggle Dark Mode Button */
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
-.normal {
-    background-color: #4caf50;
-    color: #ffffff;
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-.overweight {
-    background-color: #ff9800;
-    color: #ffffff;
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.obese1 {
-    background-color: #f44336;
-    color: #ffffff;
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
 }
 
-.obese2 {
-    background-color: #d32f2f;
-    color: #ffffff;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
 }
 
-.obese3 {
-    background-color: #b71c1c;
-    color: #ffffff;
+input:checked + .slider {
+    background-color: #4CAF50;
 }
 
-/* Styling for invalid data message */
-#result.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 15px;
-    text-align: center;
-    font-size: 16px;
-    margin-top: 20px;
-    border-radius: 5px;
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
 
-/* Add margin to the bottom of the result box */
-#result {
-    margin-bottom: 10px;
+/* Dark Mode Switch Animation */
+input:checked + .slider {
+    background-color: #FF5722;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
