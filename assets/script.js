@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const inches = parseInt(inchesStr);
 
         // 2. Validate range and positivity
-        if (weight <= 0 || feet < 0 || inches < 0 || feet > 8 || (feet === 8 && inches > 11)) {
-            showError("Please enter valid positive values. Max height: 8'11\".");
+        if (weight <= 0 || weight > 500 || feet < 0 || inches < 0 || feet > 8 || (feet === 8 && inches > 11)) {
+            showError("Please enter valid positive values. Max weight: 500kg. Max height: 8'11\".");
             return;
         }
 

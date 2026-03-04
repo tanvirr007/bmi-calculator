@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/style.css">
 </head>
+
 <body>
     <main class="container">
         <div class="theme-toggle-container">
             <button id="toggleDarkMode" aria-label="Toggle Dark Mode" title="Switch Theme">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="theme-icon">
+                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
             </button>
         </div>
 
@@ -25,7 +31,7 @@
         <section class="calculator-form">
             <div class="input-group">
                 <label for="weight">Weight</label>
-                <input type="number" id="weight" placeholder="e.g. 70 kg" min="1" step="0.1">
+                <input type="number" id="weight" placeholder="e.g. 70 kg" min="1" max="500" step="0.1">
             </div>
 
             <div class="input-row">
@@ -50,4 +56,5 @@
 
     <script src="./assets/script.js"></script>
 </body>
+
 </html>
