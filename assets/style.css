@@ -200,7 +200,11 @@ button {
 }
 
 .result-mode .container {
-    padding-top: 2rem;
+    padding-top: 2.5rem;
+}
+
+.result-mode #result {
+    margin-top: 0;
 }
 
 /* ============================================
@@ -556,6 +560,10 @@ button {
         padding-top: 3.25rem;
     }
 
+    .result-mode .container {
+        padding-top: 1.5rem;
+    }
+
     .input-row {
         flex-direction: column;
         gap: 0;
@@ -591,6 +599,10 @@ button {
     .container {
         padding: 1.25rem;
         padding-top: 3rem;
+    }
+
+    .result-mode .container {
+        padding-top: 1.25rem;
     }
 
     .theme-toggle-container {
