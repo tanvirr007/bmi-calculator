@@ -62,12 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const getCategory = (bmi) => {
-        if (bmi < 18.5) return { label: "Underweight", class: "underweight", icon: "⚠️", color: "#f59e0b" };
-        if (bmi < 25) return { label: "Normal Weight", class: "normal", icon: "✅", color: "#10b981" };
-        if (bmi < 30) return { label: "Overweight", class: "overweight", icon: "⚡", color: "#f97316" };
-        if (bmi < 35) return { label: "Obese Class I", class: "obese1", icon: "🔴", color: "#ef4444" };
-        if (bmi < 40) return { label: "Obese Class II", class: "obese2", icon: "🔴", color: "#dc2626" };
-        return { label: "Obese Class III", class: "obese3", icon: "🔴", color: "#b91c1c" };
+        if (bmi < 18.5) return { label: "Underweight", class: "underweight" };
+        if (bmi < 25) return { label: "Normal Weight", class: "normal" };
+        if (bmi < 30) return { label: "Overweight", class: "overweight" };
+        if (bmi < 35) return { label: "Obese Class I", class: "obese1" };
+        if (bmi < 40) return { label: "Obese Class II", class: "obese2" };
+        return { label: "Obese Class III", class: "obese3" };
     };
 
     const getHealthTip = (bmi) => {
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="bmi-value-wrap">
                     <span class="bmi-value" data-target="${bmi.toFixed(1)}">0.0</span>
                 </div>
-                <span class="bmi-label">${category.icon} ${category.label}</span>
+                <span class="bmi-label">${category.label}</span>
             </div>
 
             <div class="bmi-gauge">
@@ -161,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <div class="health-tip">
-                <div class="tip-icon">💡</div>
                 <p>${tip}</p>
             </div>
         `;
