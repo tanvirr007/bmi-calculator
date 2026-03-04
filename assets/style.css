@@ -180,6 +180,14 @@ button {
     background: var(--input-bg-dark);
 }
 
+/* Result-only mode: hide form elements */
+.result-mode header,
+.result-mode .calculator-form>.input-group,
+.result-mode .calculator-form>.input-row,
+.result-mode #calculateBtn {
+    display: none !important;
+}
+
 /* ============================================
    Result Card - Premium Output
    ============================================ */

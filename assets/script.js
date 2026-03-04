@@ -181,26 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const showResultView = () => {
-        // Hide input fields and header
-        const inputGroups = formSection.querySelectorAll('.input-group, .input-row');
-        inputGroups.forEach(el => el.style.display = 'none');
-        headerEl.style.display = 'none';
-
-        // Hide Calculate, show Main Menu
-        calculateBtn.style.display = 'none';
+        document.body.classList.add('result-mode');
         resetBtn.textContent = 'Main Menu';
         resetBtn.classList.remove('btn-outline');
         resetBtn.classList.add('btn-primary');
     };
 
     const showFormView = () => {
-        // Restore input fields and header
-        const inputGroups = formSection.querySelectorAll('.input-group, .input-row');
-        inputGroups.forEach(el => el.style.display = '');
-        headerEl.style.display = '';
-
-        // Restore buttons
-        calculateBtn.style.display = '';
+        document.body.classList.remove('result-mode');
         resetBtn.textContent = 'Reset';
         resetBtn.classList.remove('btn-primary');
         resetBtn.classList.add('btn-outline');
