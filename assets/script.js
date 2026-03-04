@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetBtn = document.getElementById("resetButton");
     const resultBox = document.getElementById("result");
     const themeToggle = document.getElementById("toggleDarkMode");
+    const formSection = document.querySelector(".calculator-form");
+    const headerEl = document.querySelector("header");
 
     // Initialize Theme
     const savedTheme = localStorage.getItem("theme");
@@ -164,6 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
+        // Hide the form inputs and show result-only view
+        showResultView();
+
         // Animate the counter
         const valueEl = resultBox.querySelector('.bmi-value');
         if (valueEl) animateCounter(valueEl, bmi);
@@ -173,6 +178,32 @@ document.addEventListener("DOMContentLoaded", () => {
             const pointer = resultBox.querySelector('.gauge-pointer');
             if (pointer) pointer.classList.add('animated');
         });
+    };
+
+    const showResultView = () => {
+        // Hide input fields and header
+        const inputGroups = formSection.querySelectorAll('.input-group, .input-row');
+        inputGroups.forEach(el => el.style.display = 'none');
+        headerEl.style.display = 'none';
+
+        // Hide Calculate, show Main Menu
+        calculateBtn.style.display = 'none';
+        resetBtn.textContent = 'Main Menu';
+        resetBtn.classList.remove('btn-outline');
+        resetBtn.classList.add('btn-primary');
+    };
+
+    const showFormView = () => {
+        // Restore input fields and header
+        const inputGroups = formSection.querySelectorAll('.input-group, .input-row');
+        inputGroups.forEach(el => el.style.display = '');
+        headerEl.style.display = '';
+
+        // Restore buttons
+        calculateBtn.style.display = '';
+        resetBtn.textContent = 'Reset';
+        resetBtn.classList.remove('btn-primary');
+        resetBtn.classList.add('btn-outline');
     };
 
     const showError = (message) => {
@@ -203,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         feetInput.value = "";
         inchesInput.value = "";
         hideResult();
+        showFormView();
         weightInput.focus();
     };
 
