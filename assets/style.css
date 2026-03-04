@@ -55,6 +55,7 @@ body.dark-mode {
     width: 100%;
     max-width: 480px;
     padding: 2.5rem;
+    padding-top: 3.5rem;
     border-radius: 1.5rem;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
@@ -538,6 +539,7 @@ button {
 @media (max-width: 640px) {
     .container {
         padding: 1.5rem;
+        padding-top: 3.25rem;
     }
 
     .input-row {
@@ -574,6 +576,7 @@ button {
 @media (max-width: 380px) {
     .container {
         padding: 1.25rem;
+        padding-top: 3rem;
     }
 
     .theme-toggle-container {
