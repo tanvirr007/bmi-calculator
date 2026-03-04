@@ -269,8 +269,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const canvas = await html2canvas(document.querySelector('.container'), {
                 scale: 2, // High resolution
                 backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff',
-                logging: false,
-                useCORS: true
+                logging: true, // Helpful for debugging resource issues
+                useCORS: true,
+                allowTaint: true
             });
 
             buttonStack.style.display = ''; // Restore buttons
