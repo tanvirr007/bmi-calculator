@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetBtn.textContent = 'Main Menu';
         resetBtn.classList.remove('btn-secondary');
         resetBtn.classList.add('btn-primary');
+        resetBtn.style.display = 'block';
         downloadBtn.style.display = 'block';
     };
 
@@ -194,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetBtn.textContent = 'Reset';
         resetBtn.classList.remove('btn-primary');
         resetBtn.classList.add('btn-secondary');
+        resetBtn.style.display = 'none';
         downloadBtn.style.display = 'none';
     };
 
