@@ -494,8 +494,9 @@ button {
 /* Theme Persistence Icon Toggle */
 .theme-toggle-container {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 10;
 }
 
 #toggleDarkMode {
@@ -508,6 +509,16 @@ button {
     border-radius: 50%;
     background: var(--input-bg);
     border: 1px solid var(--border);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#toggleDarkMode:hover {
+    transform: scale(1.08);
+}
+
+#toggleDarkMode:active {
+    transform: scale(0.95);
 }
 
 .dark-mode #toggleDarkMode {
@@ -534,5 +545,45 @@ button {
         flex-direction: column;
         align-items: center;
         gap: 0.4rem;
+    }
+
+    .theme-toggle-container {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    #toggleDarkMode {
+        width: 36px;
+        height: 36px;
+    }
+
+    #toggleDarkMode svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (max-width: 380px) {
+    .container {
+        padding: 1.25rem;
+    }
+
+    .theme-toggle-container {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    #toggleDarkMode {
+        width: 32px;
+        height: 32px;
+    }
+
+    #toggleDarkMode svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
     }
 }
