@@ -249,14 +249,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const hourStr = hours < 10 ? '0' + hours : hours;
         const minuteStr = minutes < 10 ? '0' + minutes : minutes;
         const secondStr = seconds < 10 ? '0' + seconds : seconds;
-        const timeStr = `${hourStr}.${minuteStr}.${secondStr}${ampm}`;
+        const timeStr = `${hourStr}.${minuteStr}.${secondStr}`;
 
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const month = monthNames[now.getMonth()];
         const day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
         const year = now.getFullYear();
 
-        return `bmi-report—${timeStr}—${day}-${month}-${year}.png`;
+        return `bmi-report-${timeStr}-${ampm}-${day}${month}${year}.png`;
     };
 
     const downloadReport = async () => {
