@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const showResultView = () => {
         document.body.classList.add('result-mode');
         resetBtn.textContent = 'Main Menu';
-        resetBtn.classList.remove('btn-outline');
+        resetBtn.classList.remove('btn-secondary');
         resetBtn.classList.add('btn-primary');
         downloadBtn.style.display = 'block';
     };
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.remove('result-mode');
         resetBtn.textContent = 'Reset';
         resetBtn.classList.remove('btn-primary');
-        resetBtn.classList.add('btn-outline');
+        resetBtn.classList.add('btn-secondary');
         downloadBtn.style.display = 'none';
     };
 
