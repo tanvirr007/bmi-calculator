@@ -257,4 +257,17 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.key === "Enter") calculateBMI();
         });
     });
+
+    // Real-time input clamping
+    const clampInput = (input, max) => {
+        input.addEventListener("input", () => {
+            const val = parseFloat(input.value);
+            if (val > max) input.value = max;
+            if (val < 0) input.value = 0;
+        });
+    };
+
+    clampInput(weightInput, 500);
+    clampInput(feetInput, 8);
+    clampInput(inchesInput, 11);
 });
