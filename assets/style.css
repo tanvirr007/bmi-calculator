@@ -489,35 +489,36 @@ button {
     font-weight: 700;
 }
 
-/* --- Health Tip --- */
-.health-tip {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
-    background: rgba(0, 0, 0, 0.04);
+/* Advice Section */
+.advice-section {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
     text-align: left;
-    animation: fadeIn 0.6s 0.3s both;
 }
 
-.dark-mode .health-tip {
-    background: rgba(255, 255, 255, 0.06);
+.dark-mode .advice-section {
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
-.tip-icon {
-    font-size: 1.1rem;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
+.advice-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.5;
 }
 
-.health-tip p {
-    font-size: 0.78rem;
-    font-weight: 500;
+.advice-text {
+    font-size: 0.82rem;
     line-height: 1.5;
-    opacity: 0.85;
+    font-weight: 500;
     margin: 0;
+    opacity: 0.9;
 }
 
 @keyframes fadeIn {

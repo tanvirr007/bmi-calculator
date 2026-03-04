@@ -162,8 +162,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
 
-            <div class="health-tip">
-                <p>${tip}</p>
+            <div class="advice-section">
+                <div class="advice-header">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <span>Health Advice</span>
+                </div>
+                <p class="advice-text">${tip}</p>
             </div>
         `;
 
