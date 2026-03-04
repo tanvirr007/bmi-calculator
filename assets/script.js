@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const calculateBtn = document.getElementById("calculateBtn");
     const resetBtn = document.getElementById("resetButton");
     const resultBox = document.getElementById("result");
+    const downloadBtn = document.getElementById("downloadBtn");
     const themeToggle = document.getElementById("toggleDarkMode");
     const formSection = document.querySelector(".calculator-form");
     const headerEl = document.querySelector("header");
@@ -185,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetBtn.textContent = 'Main Menu';
         resetBtn.classList.remove('btn-outline');
         resetBtn.classList.add('btn-primary');
+        downloadBtn.style.display = 'block';
     };
 
     const showFormView = () => {
@@ -192,6 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetBtn.textContent = 'Reset';
         resetBtn.classList.remove('btn-primary');
         resetBtn.classList.add('btn-outline');
+        downloadBtn.style.display = 'none';
     };
 
     const showError = (message) => {
@@ -233,10 +236,65 @@ document.addEventListener("DOMContentLoaded", () => {
         updateThemeIcon();
     };
 
+    const formatFilenameDate = () => {
+        const now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        const timeStr = `${hours}${minutes}${ampm}`;
+
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const month = monthNames[now.getMonth()];
+        const day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+        const year = now.getFullYear();
+
+        return `bmi-report-${timeStr}-${month}-${day}-${year}.png`;
+    };
+
+    const downloadReport = async () => {
+        const originalText = downloadBtn.textContent;
+        downloadBtn.textContent = "Generating...";
+        downloadBtn.disabled = true;
+
+        try {
+            const buttonStack = document.querySelector('.button-stack');
+            buttonStack.style.display = 'none'; // Hide buttons during capture
+
+            const canvas = await html2canvas(document.querySelector('.container'), {
+                scale: 2, // High resolution
+                backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff',
+                logging: false,
+                useCORS: true
+            });
+
+            buttonStack.style.display = ''; // Restore buttons
+
+            const link = document.createElement('a');
+            link.download = formatFilenameDate();
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch (err) {
+            console.error("Error generating report:", err);
+            downloadBtn.textContent = "Error!";
+            setTimeout(() => {
+                downloadBtn.textContent = originalText;
+                downloadBtn.disabled = false;
+            }, 2000);
+            return;
+        }
+
+        downloadBtn.textContent = originalText;
+        downloadBtn.disabled = false;
+    };
+
     // --- Event Listeners ---
 
     calculateBtn.addEventListener("click", calculateBMI);
     resetBtn.addEventListener("click", resetForm);
+    downloadBtn.addEventListener("click", downloadReport);
     themeToggle.addEventListener("click", toggleTheme);
 
     // Keyboard support - Enter to calculate

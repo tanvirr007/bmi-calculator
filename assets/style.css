@@ -131,6 +131,7 @@ input:focus {
 /* Hide the default Mozilla spinner */
 input[type="number"] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 /* Customize the WebKit spinner */
