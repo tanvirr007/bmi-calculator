@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
         const year = now.getFullYear();
 
-        return `bmi-report-${timeStr}-${day}-${month}-${year}.png`;
+        return `bmi-report—${timeStr}—${day}-${month}-${year}.png`;
     };
 
     const downloadReport = async () => {
