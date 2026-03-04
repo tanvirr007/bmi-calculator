@@ -265,18 +265,13 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadBtn.disabled = true;
 
         try {
-            const buttonStack = document.querySelector('.button-stack');
-            buttonStack.style.display = 'none'; // Hide buttons during capture
-
-            const canvas = await html2canvas(document.querySelector('.container'), {
-                scale: 2, // High resolution
-                backgroundColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff',
-                logging: true, // Helpful for debugging resource issues
+            const canvas = await html2canvas(document.getElementById('result'), {
+                scale: 3, // Premium high resolution
+                backgroundColor: null, // Transparent background for a clean look
+                logging: false,
                 useCORS: true,
                 allowTaint: true
             });
-
-            buttonStack.style.display = ''; // Restore buttons
 
             const link = document.createElement('a');
             link.download = formatFilenameDate();
