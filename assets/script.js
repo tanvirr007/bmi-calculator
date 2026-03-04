@@ -23,21 +23,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateThemeIcon = () => {
         const isDark = document.body.classList.contains("dark-mode");
-        themeToggle.innerHTML = isDark 
+        themeToggle.innerHTML = isDark
             ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M3 12h1"/><path d="M20 12h1"/><path d="m18.364 5.636-.707.707"/><path d="m6.343 17.657-.707.707"/><path d="m5.636 5.636.707.707"/><path d="m17.657 17.657.707.707"/></svg>`
             : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
     };
-    
+
     // Initial icon state
     updateThemeIcon();
 
     const calculateBMI = () => {
-        const weight = parseFloat(weightInput.value);
-        const feet = parseInt(feetInput.value) || 0;
-        const inches = parseInt(inchesInput.value) || 0;
+        const weightStr = weightInput.value.trim();
+        const feetStr = feetInput.value.trim();
+        const inchesStr = inchesInput.value.trim();
 
-        // Validation
-        if (!weight || weight <= 0 || (feet === 0 && inches === 0) || feet > 8 || inches < 0 || inches > 11) {
+        // 1. Check for empty values first
+        if (!weightStr || !feetStr || !inchesStr) {
+            showError("Please provide all values.");
+            return;
+        }
+
+        const weight = parseFloat(weightStr);
+        const feet = parseInt(feetStr);
+        const inches = parseInt(inchesStr);
+
+        // 2. Validate range and positivity
+        if (weight <= 0 || feet < 0 || inches < 0 || feet > 8 || (feet === 8 && inches > 11)) {
             showError("Please enter valid positive values. Max height: 8'11\".");
             return;
         }
@@ -46,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const heightInMeters = totalInches * 0.0254;
         const bmi = weight / (heightInMeters * heightInMeters);
 
-        displayResult(bmi);
+        displayResult(bmi, weight, feet, inches);
     };
 
     const getCategory = (bmi) => {
@@ -58,15 +68,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return { label: "Obese Class 3", class: "obese3" };
     };
 
-    const displayResult = (bmi) => {
+    const displayResult = (bmi, weight, feet, inches) => {
         const category = getCategory(bmi);
-        
+
         resultBox.className = ""; // Clear existing classes
         resultBox.classList.add("visible", category.class);
-        
+
         resultBox.innerHTML = `
-            <span class="bmi-value">${bmi.toFixed(1)}</span>
-            <span class="bmi-category">Category: ${category.label}</span>
+            <div class="result-summary">
+                <span>Weight: <strong>${weight}kg</strong></span>
+                <span class="divider">|</span>
+                <span>Height: <strong>${feet}'${inches}"</strong></span>
+            </div>
+            <div class="bmi-main">
+                <span class="bmi-value">${bmi.toFixed(1)}</span>
+                <span class="bmi-category">${category.label}</span>
+            </div>
         `;
     };
 
@@ -74,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resultBox.className = "";
         resultBox.classList.add("visible", "error");
         resultBox.textContent = message;
-        
+
         // Auto-hide error after 3 seconds
         setTimeout(() => {
             if (resultBox.classList.contains("error")) {
