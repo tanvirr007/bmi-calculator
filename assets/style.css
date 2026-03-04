@@ -182,12 +182,25 @@ button {
 }
 
 /* Result-only mode: hide form elements */
-.result-mode header,
-.result-mode .calculator-form>.input-group,
-.result-mode .calculator-form>.input-row,
-.result-mode #calculateBtn,
+.result-mode header {
+    display: none !important;
+}
+
 .result-mode .theme-toggle-container {
     display: none !important;
+}
+
+.result-mode .calculator-form .input-group,
+.result-mode .calculator-form .input-row {
+    display: none !important;
+}
+
+.result-mode #calculateBtn {
+    display: none !important;
+}
+
+.result-mode .container {
+    padding-top: 2rem;
 }
 
 /* ============================================
