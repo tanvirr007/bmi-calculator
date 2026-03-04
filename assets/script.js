@@ -1,88 +1,123 @@
-function calculateBMI() {
-    // Get input values from the user
-    let weight = parseFloat(document.getElementById("weight").value);
-    let feet = parseInt(document.getElementById("feet").value);
-    let inches = parseInt(document.getElementById("inches").value);
+/**
+ * BMI Calculator - Premium Logic
+ * Refactored for modern ES6, accessibility, and theme persistence.
+ */
 
-    // Reference to result box
-    let resultBox = document.getElementById("result");
+document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
+    const weightInput = document.getElementById("weight");
+    const feetInput = document.getElementById("feet");
+    const inchesInput = document.getElementById("inches");
+    const calculateBtn = document.getElementById("calculateBtn");
+    const resetBtn = document.getElementById("resetButton");
+    const resultBox = document.getElementById("result");
+    const themeToggle = document.getElementById("toggleDarkMode");
 
-    // Check if inputs are valid
-    if (isNaN(weight) || isNaN(feet) || isNaN(inches) || weight <= 0 || feet < 0 || inches < 0 || inches > 11) {
-        resultBox.style.display = "block"; // Show the result box
-        resultBox.style.opacity = "0";  // Reset opacity for fade-in effect
-        resultBox.innerHTML = "Please fill in all fields with valid data";
-        resultBox.classList.add("error");  // Apply error styling
+    // Initialize Theme
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+    }
 
-        // Fade-in animation trigger
+    // --- Helper Functions ---
+
+    const updateThemeIcon = () => {
+        const isDark = document.body.classList.contains("dark-mode");
+        themeToggle.innerHTML = isDark 
+            ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v1"/><path d="M12 20v1"/><path d="M3 12h1"/><path d="M20 12h1"/><path d="m18.364 5.636-.707.707"/><path d="m6.343 17.657-.707.707"/><path d="m5.636 5.636.707.707"/><path d="m17.657 17.657.707.707"/></svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+    };
+    
+    // Initial icon state
+    updateThemeIcon();
+
+    const calculateBMI = () => {
+        const weight = parseFloat(weightInput.value);
+        const feet = parseInt(feetInput.value) || 0;
+        const inches = parseInt(inchesInput.value) || 0;
+
+        // Validation
+        if (!weight || weight <= 0 || (feet === 0 && inches === 0) || inches < 0 || inches > 11) {
+            showError("Please enter valid positive values for weight and height.");
+            return;
+        }
+
+        const totalInches = (feet * 12) + inches;
+        const heightInMeters = totalInches * 0.0254;
+        const bmi = weight / (heightInMeters * heightInMeters);
+
+        displayResult(bmi);
+    };
+
+    const getCategory = (bmi) => {
+        if (bmi < 18.5) return { label: "Underweight", class: "underweight" };
+        if (bmi < 25) return { label: "Normal Weight", class: "normal" };
+        if (bmi < 30) return { label: "Overweight", class: "overweight" };
+        if (bmi < 35) return { label: "Obese Class 1", class: "obese1" };
+        if (bmi < 40) return { label: "Obese Class 2", class: "obese2" };
+        return { label: "Obese Class 3", class: "obese3" };
+    };
+
+    const displayResult = (bmi) => {
+        const category = getCategory(bmi);
+        
+        resultBox.className = ""; // Clear existing classes
+        resultBox.classList.add("visible", category.class);
+        
+        resultBox.innerHTML = `
+            <span class="bmi-value">${bmi.toFixed(1)}</span>
+            <span class="bmi-category">Category: ${category.label}</span>
+        `;
+    };
+
+    const showError = (message) => {
+        resultBox.className = "";
+        resultBox.classList.add("visible", "error");
+        resultBox.textContent = message;
+        
+        // Auto-hide error after 3 seconds
         setTimeout(() => {
-            resultBox.style.opacity = "1";
-        }, 50);
+            if (resultBox.classList.contains("error")) {
+                hideResult();
+            }
+        }, 3000);
+    };
 
-        // Automatically reset on invalid attempt
-        setTimeout(resetForm, 1500);
-        return;
-    }
+    const hideResult = () => {
+        resultBox.classList.remove("visible");
+        setTimeout(() => {
+            if (!resultBox.classList.contains("visible")) {
+                resultBox.className = "";
+                resultBox.innerHTML = "";
+            }
+        }, 300);
+    };
 
-    // Convert feet and inches to total inches
-    let totalInches = (feet * 12) + inches;
+    const resetForm = () => {
+        weightInput.value = "";
+        feetInput.value = "";
+        inchesInput.value = "";
+        hideResult();
+        weightInput.focus();
+    };
 
-    // Convert height from inches to meters (1 inch = 0.0254 meters)
-    let heightInMeters = totalInches * 0.0254;
+    const toggleTheme = () => {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        updateThemeIcon();
+    };
 
-    // Calculate BMI: BMI = weight (kg) / (height (m) ^ 2)
-    let bmi = weight / (heightInMeters * heightInMeters);
+    // --- Event Listeners ---
 
-    // Categorize BMI
-    let category = "";
-    if (bmi < 18.5) {
-        category = "Underweight";
-        resultBox.className = "underweight"; // Apply category styling
-    } else if (bmi >= 18.5 && bmi < 24.9) {
-        category = "Normal weight";
-        resultBox.className = "normal";
-    } else if (bmi >= 25 && bmi < 29.9) {
-        category = "Overweight";
-        resultBox.className = "overweight";
-    } else if (bmi >= 30 && bmi < 34.9) {
-        category = "Obese Class 1 (Moderate obesity)";
-        resultBox.className = "obese1";
-    } else if (bmi >= 35 && bmi < 39.9) {
-        category = "Obese Class 2 (Severe obesity)";
-        resultBox.className = "obese2";
-    } else {
-        category = "Obese Class 3 (Very severe or morbidly obese)";
-        resultBox.className = "obese3";
-    }
+    calculateBtn.addEventListener("click", calculateBMI);
+    resetBtn.addEventListener("click", resetForm);
+    themeToggle.addEventListener("click", toggleTheme);
 
-    // Display the result
-    resultBox.style.display = "block";  // Show the result box
-    resultBox.style.opacity = "0"; // Reset opacity for fade-in effect
-    resultBox.innerHTML = `Your BMI: ${bmi.toFixed(2)}<br>Category: ${category}`;
-
-    // Fade-in animation trigger
-    setTimeout(() => {
-        resultBox.style.opacity = "1";
-    }, 50);
-}
-
-function resetForm() {
-    let resultBox = document.getElementById("result");
-
-    // Hide the result box smoothly
-    resultBox.style.opacity = "0";
-
-    setTimeout(() => {
-        resultBox.style.display = "none";
-        resultBox.className = ""; // Reset any category class
-    }, 300);
-
-    // Clear input fields
-    document.getElementById("weight").value = "";
-    document.getElementById("feet").value = "";
-    document.getElementById("inches").value = "";
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
+    // Keyboard support - Enter to calculate
+    [weightInput, feetInput, inchesInput].forEach(input => {
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") calculateBMI();
+        });
+    });
+});
