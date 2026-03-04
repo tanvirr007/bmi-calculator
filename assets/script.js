@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const inches = parseInt(inchesInput.value) || 0;
 
         // Validation
-        if (!weight || weight <= 0 || (feet === 0 && inches === 0) || inches < 0 || inches > 11) {
-            showError("Please enter valid positive values for weight and height.");
+        if (!weight || weight <= 0 || (feet === 0 && inches === 0) || feet > 8 || inches < 0 || inches > 11) {
+            showError("Please enter valid positive values. Max height: 8'11\".");
             return;
         }
 
