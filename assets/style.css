@@ -198,6 +198,27 @@ button {
     transform: translateY(0);
 }
 
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.dark-mode .btn-secondary {
+    border-color: #a855f7;
+    color: #a855f7;
+}
+
+.dark-mode .btn-secondary:hover {
+    background: #a855f7;
+    color: white;
+}
+
 .btn-outline {
     background: transparent;
     border: 1px solid var(--border);
