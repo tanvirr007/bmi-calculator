@@ -651,6 +651,12 @@ button {
         gap: 0.4rem;
     }
 
+    .result-mode .button-stack {
+        display: flex !important;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
     .theme-toggle-container {
         top: 1rem;
         right: 1rem;
