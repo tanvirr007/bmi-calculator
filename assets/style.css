@@ -202,11 +202,18 @@ button {
     background: var(--primary);
     border: 1px solid var(--primary);
     color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:hover {
-    background: var(--primary);
-    color: white;
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
 }
 
 .dark-mode .btn-secondary {
