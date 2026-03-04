@@ -185,7 +185,8 @@ button {
 .result-mode header,
 .result-mode .calculator-form>.input-group,
 .result-mode .calculator-form>.input-row,
-.result-mode #calculateBtn {
+.result-mode #calculateBtn,
+.result-mode .theme-toggle-container {
     display: none !important;
 }
 
