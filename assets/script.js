@@ -241,20 +241,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const formatFilenameDate = () => {
         const now = new Date();
         let hours = now.getHours();
-        let minutes = now.getMinutes();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
         const ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12;
         const hourStr = hours < 10 ? '0' + hours : hours;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        const timeStr = `${hourStr}.${minutes}-${ampm}`;
+        const minuteStr = minutes < 10 ? '0' + minutes : minutes;
+        const secondStr = seconds < 10 ? '0' + seconds : seconds;
+        const timeStr = `${hourStr}.${minuteStr}.${secondStr}${ampm}`;
 
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const month = monthNames[now.getMonth()];
         const day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
         const year = now.getFullYear();
 
-        return `bmi-report-${timeStr}-${month}-${day}-${year}.png`;
+        return `bmi-report-${timeStr}-${day}-${month}-${year}.png`;
     };
 
     const downloadReport = async () => {
