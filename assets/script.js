@@ -321,4 +321,13 @@ document.addEventListener("DOMContentLoaded", () => {
     clampInput(weightInput, 500);
     clampInput(feetInput, 8);
     clampInput(inchesInput, 11);
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Registration Failed', err));
+        });
+    }
 });
