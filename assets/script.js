@@ -263,23 +263,151 @@ document.addEventListener("DOMContentLoaded", () => {
         return `bmi-report-${timeStr}-${ampm}-${day}${month}${year}.png`;
     };
 
+    // --- Export Color Scheme (fixed, AMOLED-safe — no dynamic category colors) ---
+    const exportTheme = {
+        light: {
+            bg: '#ffffff',
+            text: '#1e293b',
+            chipBg: '#f1f5f9',
+            chipText: '#334155',
+            detailBg: '#f1f5f9',
+            border: '#cbd5e1',
+            pointerBorder: '#6366f1',
+        },
+        dark: {
+            bg: '#1e293b',
+            text: '#f1f5f9',
+            chipBg: '#334155',
+            chipText: '#e2e8f0',
+            detailBg: '#334155',
+            border: '#475569',
+            pointerBorder: '#a78bfa',
+        }
+    };
+
     const downloadReport = async () => {
         const originalText = downloadBtn.textContent;
         downloadBtn.textContent = "Generating...";
         downloadBtn.disabled = true;
 
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        const colors = isDarkMode ? exportTheme.dark : exportTheme.light;
+
         try {
-            const canvas = await html2canvas(document.getElementById('result'), {
-                scale: 3, // Premium high resolution
-                backgroundColor: null, // Transparent background for a clean look
+            const resultEl = document.getElementById('result');
+
+            const canvas = await html2canvas(resultEl, {
+                scale: 4,
+                backgroundColor: colors.bg,
                 logging: false,
                 useCORS: true,
-                allowTaint: true
+                allowTaint: true,
+                onclone: (clonedDoc) => {
+                    const el = clonedDoc.getElementById('result');
+                    if (!el) return;
+
+                    // Strip ALL category classes so CSS can't inject dynamic colors
+                    el.classList.remove('underweight', 'normal', 'overweight', 'obese1', 'obese2', 'obese3');
+
+                    // --- Root result card ---
+                    el.style.background = colors.bg;
+                    el.style.color = colors.text;
+                    el.style.borderRadius = '1rem';
+                    el.style.padding = '2rem';
+                    el.style.fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+                    el.style.textRendering = 'optimizeLegibility';
+
+                    // Force color on EVERY child element to prevent any CSS inheritance leaks
+                    el.querySelectorAll('*').forEach(child => {
+                        if (child.tagName !== 'svg' && child.tagName !== 'path' && child.tagName !== 'line' &&
+                            child.tagName !== 'circle' && child.tagName !== 'polyline' && child.tagName !== 'rect') {
+                            child.style.color = colors.text;
+                        }
+                    });
+
+                    // --- Info chips ---
+                    el.querySelectorAll('.info-chip').forEach(chip => {
+                        chip.style.background = colors.chipBg;
+                        chip.style.color = colors.chipText;
+                        chip.style.backdropFilter = 'none';
+                        chip.style.webkitBackdropFilter = 'none';
+                    });
+                    el.querySelectorAll('.info-chip small').forEach(s => {
+                        s.style.color = colors.chipText;
+                        s.style.opacity = '0.7';
+                    });
+                    el.querySelectorAll('.info-chip svg').forEach(svg => {
+                        svg.style.stroke = colors.chipText;
+                        svg.style.opacity = '1';
+                    });
+
+                    // --- BMI value + label ---
+                    const bmiValue = el.querySelector('.bmi-value');
+                    if (bmiValue) {
+                        bmiValue.style.color = colors.text;
+                        bmiValue.style.opacity = '1';
+                    }
+                    const bmiLabel = el.querySelector('.bmi-label');
+                    if (bmiLabel) {
+                        bmiLabel.style.color = colors.text;
+                        bmiLabel.style.opacity = '1';
+                    }
+
+                    // --- Gauge labels ---
+                    el.querySelectorAll('.gauge-labels span').forEach(span => {
+                        span.style.color = colors.text;
+                        span.style.opacity = '0.6';
+                    });
+
+                    // --- Pointer dot ---
+                    const pointerDot = el.querySelector('.pointer-dot');
+                    if (pointerDot) {
+                        pointerDot.style.background = '#ffffff';
+                        pointerDot.style.borderColor = colors.pointerBorder;
+                        pointerDot.style.boxShadow = `0 0 0 3px ${colors.pointerBorder}40, 0 2px 8px rgba(0,0,0,0.25)`;
+                    }
+
+                    // --- Detail row ---
+                    el.querySelectorAll('.detail-row').forEach(row => {
+                        row.style.background = colors.detailBg;
+                        row.style.color = colors.text;
+                    });
+                    el.querySelectorAll('.detail-label').forEach(lbl => {
+                        lbl.style.color = colors.text;
+                        lbl.style.opacity = '0.7';
+                    });
+                    el.querySelectorAll('.detail-value').forEach(val => {
+                        val.style.color = colors.text;
+                        val.style.opacity = '1';
+                        val.style.fontWeight = '700';
+                    });
+
+                    // --- Advice section ---
+                    const advice = el.querySelector('.advice-section');
+                    if (advice) {
+                        advice.style.borderTopColor = colors.border;
+                        advice.style.borderTopStyle = 'solid';
+                        advice.style.borderTopWidth = '1px';
+                    }
+                    const adviceHeader = el.querySelector('.advice-header');
+                    if (adviceHeader) {
+                        adviceHeader.style.color = colors.text;
+                        adviceHeader.style.opacity = '0.6';
+                    }
+                    el.querySelectorAll('.advice-header svg').forEach(svg => {
+                        svg.style.stroke = colors.text;
+                    });
+                    const adviceText = el.querySelector('.advice-text');
+                    if (adviceText) {
+                        adviceText.style.color = colors.text;
+                        adviceText.style.opacity = '0.9';
+                    }
+                }
             });
 
             const link = document.createElement('a');
             link.download = formatFilenameDate();
-            link.href = canvas.toDataURL('image/png');
+            link.href = canvas.toDataURL('image/png', 1.0);
             link.click();
         } catch (err) {
             console.error("Error generating report:", err);
